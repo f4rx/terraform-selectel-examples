@@ -131,10 +131,10 @@ resource "openstack_compute_instance_v2" "jump_box" {
     destination = "/root/prometheus.yml"
 
     connection {
-      type         = "ssh"
-      host         = "${openstack_networking_floatingip_v2.floatingip_1.address}"
-      user         = "root"
-      agent        = true
+      type  = "ssh"
+      host  = "${openstack_networking_floatingip_v2.floatingip_1.address}"
+      user  = "root"
+      agent = true
     }
   }
 
@@ -142,10 +142,10 @@ resource "openstack_compute_instance_v2" "jump_box" {
     source      = "files/bootstrap"
     destination = "/tmp/"
     connection {
-      type         = "ssh"
-      host         = "${openstack_networking_floatingip_v2.floatingip_1.address}"
-      user         = "root"
-      agent        = true
+      type  = "ssh"
+      host  = "${openstack_networking_floatingip_v2.floatingip_1.address}"
+      user  = "root"
+      agent = true
     }
   }
 
@@ -157,13 +157,13 @@ resource "openstack_compute_instance_v2" "jump_box" {
     ]
 
     connection {
-      type         = "ssh"
+      type = "ssh"
       # bastion_host = "${var.bastion_host}"
       # bastion_port = 2222
       # bastion_user = "root"
-      host         = "${openstack_networking_floatingip_v2.floatingip_1.address}"
-      user         = "root"
-      agent        = true
+      host  = "${openstack_networking_floatingip_v2.floatingip_1.address}"
+      user  = "root"
+      agent = true
     }
   }
 }
@@ -175,29 +175,29 @@ resource "openstack_networking_floatingip_associate_v2" "association_1" {
 
 locals {
   prometheus_config = templatefile("templates/prometheus.tpl",
-          {
-            # nodes: "${module.nodes.nodes_list}"
-            node_ips: "${module.nodes.node_ip_list}"
-          },
-        )
+    {
+      # nodes: "${module.nodes.nodes_list}"
+      node_ips : "${module.nodes.node_ip_list}"
+    },
+  )
 }
 
 # Create 3 nodes
 module "nodes" {
-  source = "./modules/create_server"
+  source       = "./modules/create_server"
   server_count = 3
-  server_name = "node"
+  server_name  = "node"
 
   network_id = "${openstack_networking_network_v2.network_1.id}"
-  subnet_id = "${openstack_networking_subnet_v2.subnet_1.id}"
+  subnet_id  = "${openstack_networking_subnet_v2.subnet_1.id}"
 
-  image_id = "${data.openstack_images_image_v2.image_ubuntu_18_04.id}"
-  region = "${var.region}"
-  az_zone = "${var.az_zone}"
+  image_id    = "${data.openstack_images_image_v2.image_ubuntu_18_04.id}"
+  region      = "${var.region}"
+  az_zone     = "${var.az_zone}"
   volume_type = "${var.volume_type}"
 
   key_pair_id = "${openstack_compute_keypair_v2.terraform_key.id}"
-  flavor_id = "${openstack_compute_flavor_v2.node_flavor.id}"
+  flavor_id   = "${openstack_compute_flavor_v2.node_flavor.id}"
 
   bastion_host = "${openstack_networking_floatingip_v2.floatingip_1.address}"
 }

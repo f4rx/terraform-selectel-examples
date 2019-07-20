@@ -145,18 +145,18 @@ resource "openstack_networking_floatingip_associate_v2" "association_1" {
 
 # Create 3 nodes
 module "nodes" {
-  source = "./modules/create_server"
+  source       = "./modules/create_server"
   server_count = 3
-  server_name = "node"
+  server_name  = "node"
 
   network_id = "${openstack_networking_network_v2.network_1.id}"
-  subnet_id = "${openstack_networking_subnet_v2.subnet_1.id}"
+  subnet_id  = "${openstack_networking_subnet_v2.subnet_1.id}"
 
-  image_id = "${data.openstack_images_image_v2.image_ubuntu_18_04.id}"
-  region = "${var.region}"
-  az_zone = "${var.az_zone}"
+  image_id    = "${data.openstack_images_image_v2.image_ubuntu_18_04.id}"
+  region      = "${var.region}"
+  az_zone     = "${var.az_zone}"
   volume_type = "${var.volume_type}"
 
   key_pair_id = "${openstack_compute_keypair_v2.terraform_key.id}"
-  flavor_id = "${openstack_compute_flavor_v2.node_flavor.id}"
+  flavor_id   = "${openstack_compute_flavor_v2.node_flavor.id}"
 }
