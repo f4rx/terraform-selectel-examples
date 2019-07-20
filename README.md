@@ -4,23 +4,6 @@
 **jump-box_and_3-servers** - создается приватная сеть  192/24, запуск одного сервера - бастинг-хост (шел-бокс, джамп бокс) с Floatin IP (внешний адрес)  и трех нод, доступ к ним осуществляется через бастинг хост. В дальнейшем можно поставить на него nginx и проксипасить запросы на бекенды.  
 **grafana_prometheus_and_3_nodes** - Расширенный пример предыдущего шага с добавлением провизионеров для бутстрапа хостов - на шеллбокс ставится графана с прометеус серверов, (http://server_ip:3000,  логин/пароль admin/secret_password) с уже готовым дашбордом, и экспортеры с нод пишут данные в пром сервер. Рассширение серверов не привод к обновлению конфига прометеуса, т.к. привижионер запускается только один раз.
 
-### Вывод (output)
-**jump-box_and_3-servers** Пример
-
-```bash
-terraform apply -var-file="../secret.tfvars"
-...
-Apply complete! Resources: 23 added, 0 changed, 0 destroyed.
-
-Outputs:
-
-nodes_data = [
-  "node-1 a0ebafe8-bbe6-47cc-966c-babd6dc4f055 192.168.0.11",
-  "node-2 7f3c0128-56ac-49bb-9f78-e74385c839ba 192.168.0.4",
-  "node-3 f6fd5bd2-6c8d-4ce5-8588-e06fa759df0d 192.168.0.5",
-]
-server_floatingip_address = 46.161.52.233
-```
 
 ## Начало работы
 В панели my.selectel.ru создать проект https://my.selectel.ru/vpc/projects, на странице https://my.selectel.ru/vpc/users создать пользователя и добавить его в проект.
@@ -71,4 +54,22 @@ TF_LOG=debug terraform ....
 Не вводить yes:
 ```bash
  terraform apply --auto-approve=true
+```
+
+## Вывод (output)
+**jump-box_and_3-servers** Пример
+
+```bash
+terraform apply -var-file="../secret.tfvars"
+...
+Apply complete! Resources: 23 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+nodes_data = [
+  "node-1 a0ebafe8-bbe6-47cc-966c-babd6dc4f055 192.168.0.11",
+  "node-2 7f3c0128-56ac-49bb-9f78-e74385c839ba 192.168.0.4",
+  "node-3 f6fd5bd2-6c8d-4ce5-8588-e06fa759df0d 192.168.0.5",
+]
+server_floatingip_address = 46.161.52.233
 ```
