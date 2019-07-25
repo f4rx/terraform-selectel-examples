@@ -49,6 +49,7 @@ terraform destroy -var-file="../secret.tfvars" -target=openstack_compute_instanc
 Дебаг
 ```bash
 TF_LOG=debug terraform ....
+OS_DEBUG=1 TF_LOG=DEBUG terraform ....
 ```
 
 Не вводить yes:
