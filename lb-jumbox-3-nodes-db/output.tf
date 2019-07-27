@@ -7,11 +7,11 @@ output "LB_floatingip_address" {
 
 locals {
 
-  jump_host_ip = "${openstack_networking_floatingip_v2.floatingip_1.address}"
+  jump_host_ip        = "${openstack_networking_floatingip_v2.floatingip_1.address}"
   web_hosts_inventory = <<EOT
-%{ for host in openstack_compute_instance_v2.web_servers.* ~}
+%{for host in openstack_compute_instance_v2.web_servers.*~}
 ${host.name} ansible_host=${host.access_ip_v4} ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q root@${local.jump_host_ip}"'
-%{ endfor }
+%{endfor}
 EOT
 }
 
