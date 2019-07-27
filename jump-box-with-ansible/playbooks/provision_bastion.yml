@@ -1,0 +1,30 @@
+---
+- hosts: all
+  tasks:
+    - name: install epel repo
+      yum:
+        name: epel-release
+        state: latest
+    - name: install the latest version of wget
+      yum:
+        name: wget
+        state: latest
+    - name: Prom config
+      copy:
+        dest: "/root/prometheus.yml"
+        content: |
+          global:
+            scrape_interval:     15s
+          scrape_configs:
+            - job_name: 'prometheus'
+              static_configs:
+                - targets: ['localhost:9090']
+    - name: Run Prom Server
+      shell: |
+        wget https://github.com/prometheus/prometheus/releases/download/v2.11.1/prometheus-2.11.1.linux-amd64.tar.gz
+        tar xvf prometheus-2.11.1.linux-amd64.tar.gz
+        nohup  /root/prometheus-2.11.1.linux-amd64/prometheus --config.file="/root/prometheus.yml" &
+        sleep 5
+        exit 0
+      args:
+        executable: /bin/bash
