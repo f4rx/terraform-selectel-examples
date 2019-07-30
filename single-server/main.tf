@@ -1,7 +1,7 @@
 # Configure the OpenStack Provider
 provider "openstack" {
-  domain_name = "47951"
-  tenant_name = "terraform"
+  domain_name = "${var.domain_name}"
+  tenant_name = "${var.project_name}"
   user_name   = "${var.user_name}"
   password    = "${var.user_password}"
   auth_url    = "https://api.selvpc.ru/identity/v3"
