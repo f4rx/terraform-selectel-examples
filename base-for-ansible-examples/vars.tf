@@ -20,3 +20,5 @@ variable "project_name" {}
 variable "server_count" {
   default = 2
 }
+
+
