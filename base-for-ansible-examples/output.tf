@@ -18,14 +18,9 @@ output "internal_db_host_ip" {
 output "web_servers_internal_ip" {
   value = "${formatlist("%v %v", openstack_compute_instance_v2.web_servers.*.name, openstack_compute_instance_v2.web_servers.*.network.0.fixed_ip_v4)}"
 }
-# output "web_servers_internal_ip" {
-#   value = "${formatlist("%v %v %v", openstack_compute_instance_v2.web_servers.*.name, openstack_compute_instance_v2.web_servers.*.id, openstack_compute_instance_v2.web_servers.*.network.0.fixed_ip_v4)}"
-# }
-
 
 
 locals {
-
   jump_host_ip        = "${openstack_networking_floatingip_v2.floatingip_bastion_host.address}"
   web_hosts_inventory = <<EOT
 %{for host in openstack_compute_instance_v2.web_servers.*~}
@@ -35,7 +30,7 @@ EOT
 }
 
 data "template_file" "ansible_inventory" {
-  template = "${file("templates/ansigle_inventory.tpl")}"
+  template = "${file("templates/ansible_inventory.tpl")}"
   vars = {
     jump_host_ip = "${local.jump_host_ip}"
     db_host_ip = "${openstack_compute_instance_v2.db.access_ip_v4}"
