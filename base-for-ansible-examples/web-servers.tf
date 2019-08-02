@@ -24,7 +24,7 @@ resource "openstack_blockstorage_volume_v3" "volume_web_server" {
 
 resource "openstack_compute_instance_v2" "web_servers" {
   count             = "${var.server_count}"
-  name              = "web-${count.index + 1}"
+  name              = "puma-${count.index + 1}"
   flavor_id         = "${openstack_compute_flavor_v2.flavor_1.id}"
   key_pair          = "${openstack_compute_keypair_v2.terraform_key.id}"
   availability_zone = "${var.az_zone}"

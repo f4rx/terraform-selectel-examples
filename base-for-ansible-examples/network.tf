@@ -14,8 +14,8 @@ resource "openstack_networking_network_v2" "network_1" {
 
 resource "openstack_networking_subnet_v2" "subnet_1" {
   network_id      = "${openstack_networking_network_v2.network_1.id}"
-  name            = "192.168.0.0/24"
-  cidr            = "192.168.0.0/24"
+  name            = "172.16.100.0/24"
+  cidr            = "172.16.100.0/24"
   dns_nameservers = ["188.93.16.19", "188.93.17.19", "109.234.159.91"]
 }
 

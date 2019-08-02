@@ -22,7 +22,7 @@ resource "openstack_blockstorage_volume_v3" "lb_volume_1" {
 }
 
 resource "openstack_compute_instance_v2" "lb_host" {
-  name              = "${var.server_name}"
+  name              = "nginx-balancer"
   flavor_id         = "${openstack_compute_flavor_v2.flavor_1.id}"
   key_pair          = "${openstack_compute_keypair_v2.terraform_key.id}"
   availability_zone = "${var.az_zone}"
