@@ -21,7 +21,7 @@ resource "openstack_blockstorage_volume_v3" "volume_db" {
 }
 
 resource "openstack_compute_instance_v2" "db" {
-  name              = "web-db"
+  name              = "postgresql"
   flavor_id         = "${openstack_compute_flavor_v2.flavor_1.id}"
   key_pair          = "${openstack_compute_keypair_v2.terraform_key.id}"
   availability_zone = "${var.az_zone}"
