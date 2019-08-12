@@ -5,3 +5,5 @@ terraform.tfstate.backup
 secret.tfvars
 *.retry
 lb-jumbox-3-nodes-db/ansible/inventory.ini
+packer/os_openstack.pem
+packer/vars.json
