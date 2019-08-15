@@ -23,6 +23,30 @@ resource "openstack_compute_flavor_v2" "flavor_1" {
   }
 }
 
+resource "openstack_compute_flavor_v2" "flavor_2" {
+  name      = "flavor-2cpu-1g-0hdd"
+  ram       = "1024"
+  vcpus     = "2"
+  disk      = "0"
+  is_public = false
+
+  lifecycle {
+    create_before_destroy = false
+  }
+}
+
+resource "openstack_compute_flavor_v2" "flavor_3" {
+  name      = "flavor-4cpu-4g-0hdd"
+  ram       = "4096"
+  vcpus     = "4"
+  disk      = "0"
+  is_public = false
+
+  lifecycle {
+    create_before_destroy = false
+  }
+}
+
 # SSH-key
 resource "openstack_compute_keypair_v2" "terraform_key" {
   name       = "terraform_key"
