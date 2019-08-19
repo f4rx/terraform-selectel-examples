@@ -1,0 +1,47 @@
+{
+  "variables": {
+    "region": null,
+    "tenant_name": null,
+    "domain_name": null,
+    "username": null,
+    "password": null,
+    "networks": null,
+    "availability_zone": null,
+    "volume_type": null,
+    "volume_size": "5"
+  },
+  "sensitive-variables": [
+    "password"
+  ],
+  "builders": [
+    {
+      "type": "openstack",
+      "identity_endpoint": "https://api.selvpc.ru/identity/v3",
+      "region": "{{user `region`}}",
+      "tenant_name": "{{user `tenant_name`}}",
+      "domain_name": "{{user `domain_name`}}",
+      "username": "{{user `username`}}",
+      "password": "{{user `password`}}",
+      "networks": "{{user `networks`}}",
+      "availability_zone": "{{user `availability_zone`}}",
+      "volume_type": "{{user `volume_type`}}",
+      "volume_size": "{{user `volume_size`}}",
+      "floating_ip_network": "external-network",
+      "reuse_ips": true,
+      "flavor": "BL1.1-1024",
+      "ssh_username": "root",
+      "image_name": "centos-nginx-packer-{{timestamp}}",
+      "source_image_name": "CentOS 7 Minimal 64-bit",
+      "use_floating_ip": true,
+      "use_blockstorage_volume": true,
+      "image_visibility": "private",
+      "image_tags": ["packer_nginx"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "setup.sh"
+    }
+  ]
+}

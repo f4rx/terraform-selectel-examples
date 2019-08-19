@@ -1,0 +1,10 @@
+{
+  "region": "ru-3",
+  "tenant_name": "terraform",
+  "domain_name": "47951",
+  "username": "terraform_user",
+  "password": "29xeW4bRNZB1",
+  "networks": "945caa7c-d72c-4682-9b9a-0602d5e354b6",
+  "availability_zone": "ru-3a",
+  "volume_type": "fast.ru-3a"
+}

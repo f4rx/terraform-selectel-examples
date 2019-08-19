@@ -1,0 +1,69 @@
+---
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: setup DNS
+      copy:
+        dest: "/etc/resolv.conf"
+        content: |
+          nameserver 8.8.8.8
+    - name: bootstrap software
+      yum:
+        name:
+          - epel-release
+          - wget
+          - psmisc
+        state: latest
+
+- hosts: www
+  tasks:
+    - name: install the latest version of nginx
+      yum:
+        name: nginx
+        state: latest
+    - name: Ansible create file with content example
+      copy:
+        dest: "/usr/share/nginx/html/index.html"
+        content: "{{ ansible_hostname }}\n"
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Setup and Run node exporter
+      shell: |
+        wget --no-clobber https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+        tar xvf node_exporter-0.18.1.linux-amd64.tar.gz
+        nohup /root/node_exporter-0.18.1.linux-amd64/node_exporter &
+        sleep 5
+        exit 0
+      args:
+        executable: /bin/bash
+
+
+- hosts: jumpbox-group
+  gather_facts: no
+  tasks:
+    - name: Generate Prom Config
+      tags:
+      - prom_config
+      template:
+        src: ../templates/prometheus.yml.j2
+        dest: /root/prometheus.yml
+
+    - name: Run Prom Server
+      shell: |
+        wget --no-clobber https://github.com/prometheus/prometheus/releases/download/v2.11.1/prometheus-2.11.1.linux-amd64.tar.gz
+        tar xvf prometheus-2.11.1.linux-amd64.tar.gz
+        killall -9 prometheus
+        nohup  /root/prometheus-2.11.1.linux-amd64/prometheus --config.file="/root/prometheus.yml" &
+        sleep 5
+        exit 0
+      args:
+        executable: /bin/bash
+

@@ -1,0 +1,10 @@
+{
+  "tenant_name": "PROJECT_NAME",
+  "domain_name": "DOMAIN_NAME",
+  "username": "USER_NAME",
+  "password": "PASSWORD",
+  "networks": "NETWORK_ID",
+  "region": "ru-3",
+  "availability_zone": "ru-3a",
+  "volume_type": "fast.ru-3a"
+}
